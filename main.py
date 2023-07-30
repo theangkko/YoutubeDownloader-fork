@@ -11,7 +11,11 @@ def main(page: ft.Page):
     page.title = "Youtube Downloader"
     page.window_width = 800
     page.window_height = 650
-    page.theme.visual_density = COMPACT
+    page.theme = ft.Theme(
+                    # font_family="Kanit",
+                    # color_scheme_seed="blue",
+                    visual_density="COMPACT",
+                    )
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
@@ -70,11 +74,19 @@ def main(page: ft.Page):
                 yt_list.controls.append(
                     ft.Text("Select MP4 video:", weight=ft.FontWeight.BOLD)
                 )
-                response = (
-                    yt.streams.filter(progressive=True, file_extension="mp4")
-                    .order_by("resolution")
-                    .desc()
-                )
+                if radiobutton_for_download_type.value == "progressive":
+                    response = (
+                        yt.streams.filter(progressive=True, file_extension="mp4")
+                        .order_by("resolution")
+                        .desc()
+                    )
+                else:
+                    response = (
+                        # yt.streams.filter(progressive=True, file_extension="mp4")
+                        yt.streams.filter(adaptive=True, file_extension="mp4")
+                        .order_by("resolution")
+                        .desc()
+                    )
                 for i in range(0, len(response)):
                     item = ft.Row(
                         [
@@ -117,6 +129,15 @@ def main(page: ft.Page):
                 p_search.visible = False
                 p_search.update()
 
+
+    # 
+    radiobutton_for_download_type = ft.RadioGroup(content=ft.Row([
+                                                            ft.Radio(value="progressive", label="progressive"),
+                                                            ft.Radio(value="adaptive", label="adaptive", disabled=True )]
+                                                            ),
+                                                            value="progressive"
+                                                        )
+    
     # section title
     section_title = ft.Column(
         [
@@ -128,11 +149,16 @@ def main(page: ft.Page):
                         height=100,
                         fit=ft.ImageFit.CONTAIN,
                     ),
-                    ft.Text(value="Downloader", size=40),
+                    ft.Text(value="Downloader", size=30),
                 ],
                 alignment=ft.MainAxisAlignment.START,
             ),
-            ft.Text(value="Download Youtube videos in MP4,MP3 for free"),
+            ft.Row(
+                    [
+                    ft.Text(value="Download Youtube videos in MP4,MP3 for free         download type : "),
+                    radiobutton_for_download_type
+                    ]
+                )
         ],
         horizontal_alignment=ft.CrossAxisAlignment.START,
     )
