@@ -1,3 +1,5 @@
+# https://github.com/soris2000/YoutubeDownloader
+
 import flet as ft
 from pytube import YouTube
 import os
@@ -7,6 +9,9 @@ file_data = ""
 
 def main(page: ft.Page):
     page.title = "Youtube Downloader"
+    page.window_width = 800
+    page.window_height = 650
+    page.theme.visual_density = COMPACT
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
@@ -119,17 +124,17 @@ def main(page: ft.Page):
                 [
                     ft.Image(
                         src="youtube-logo.jpg",
-                        width=150,
-                        height=150,
+                        width=100,
+                        height=100,
                         fit=ft.ImageFit.CONTAIN,
                     ),
-                    ft.Text(value="Downloader", size=45),
+                    ft.Text(value="Downloader", size=40),
                 ],
-                alignment=ft.MainAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.START,
             ),
             ft.Text(value="Download Youtube videos in MP4,MP3 for free"),
         ],
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        horizontal_alignment=ft.CrossAxisAlignment.START,
     )
 
     # section search
@@ -138,7 +143,7 @@ def main(page: ft.Page):
     p_search = ft.ProgressRing(visible=False)
     section_search = ft.Row(
         [search_input, btn_go, p_search],
-        alignment=ft.MainAxisAlignment.CENTER,
+        alignment=ft.MainAxisAlignment.START,
         vertical_alignment=ft.CrossAxisAlignment.START,
     )
 
@@ -147,7 +152,7 @@ def main(page: ft.Page):
     yt_author = ft.Text()
     yt_image = ft.Image(width=400, height=250, src="youtube-logo.jpg", visible=False)
     yt_list = ft.ListView(
-        expand=1, spacing=15, padding=20, auto_scroll=True, height=400
+        expand=1, spacing=15, padding=20, auto_scroll=False, height=400
     )
     section_yt = ft.Row(
         [
